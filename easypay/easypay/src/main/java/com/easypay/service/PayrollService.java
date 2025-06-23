@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.easypay.exception.ResourceNotFoundException;
 import com.easypay.model.Employee;
 import com.easypay.model.EmployeeBenefit;
 import com.easypay.model.JobTitle;
@@ -16,7 +17,6 @@ import com.easypay.model.PayrollPolicy;
 import com.easypay.repository.EmployeeBenefitRepository;
 import com.easypay.repository.EmployeeRepository;
 import com.easypay.repository.LeaveRepository;
-import com.easypay.repository.PayrollPolicyRepository;
 import com.easypay.repository.PayrollRepository;
 
 @Service
@@ -25,17 +25,14 @@ public class PayrollService {
 	private PayrollRepository payrollRepository;
 	private EmployeeRepository employeeRepository;
 	private LeaveRepository leaveRepository;
-	private PayrollPolicyRepository payrollPolicyRepository;
 	private EmployeeBenefitRepository employeeBenefitRepository;
 
 	public PayrollService(PayrollRepository payrollRepository, EmployeeRepository employeeRepository,
-			LeaveRepository leaveRepository, PayrollPolicyRepository payrollPolicyRepository,
-			EmployeeBenefitRepository employeeBenefitRepository) {
+			LeaveRepository leaveRepository, EmployeeBenefitRepository employeeBenefitRepository) {
 		super();
 		this.payrollRepository = payrollRepository;
 		this.employeeRepository = employeeRepository;
 		this.leaveRepository = leaveRepository;
-		this.payrollPolicyRepository = payrollPolicyRepository;
 		this.employeeBenefitRepository = employeeBenefitRepository;
 	}
 
@@ -64,8 +61,7 @@ public class PayrollService {
         double totalEarnings = basic + hra + da + otherAllowances;
 
         // 3. Fetch Payroll Policy
-        PayrollPolicy policy = payrollPolicyRepository.findActivePolicyForEmployee(employeeId)
-                .orElseThrow(() -> new RuntimeException("No payroll policy found"));
+        PayrollPolicy policy = employee.getPayrollPolicy();
 
         double taxDeduction = totalEarnings * (policy.getTaxRate() / 100.0);
         double pfContribution = basic * (policy.getPfRate() / 100.0);
@@ -101,6 +97,8 @@ public class PayrollService {
         payroll.setTotalEarnings(totalEarnings);
         payroll.setTotalDeductions(totalDeductions);
         payroll.setNetSalary(netPay);
+        payroll.setStatus("Pending");
+        payroll.setProcessedOn(LocalDate.now().toString());
         
 		return payrollRepository.save(payroll);
 	}
@@ -112,6 +110,13 @@ public class PayrollService {
 	public Payroll getPayrollById(int payrollId) {
 		return payrollRepository.findById(payrollId)
 				.orElseThrow(()->new RuntimeException("Invalid Id given"));
+	}
+
+	public List<Payroll> getAllPayrollsForEmployee(int employeeId) {
+		employeeRepository.findById(employeeId)
+		.orElseThrow(()->new ResourceNotFoundException("Id given is invalid"));
+		
+		return payrollRepository.getAllPayrollsForEmployee(employeeId);
 	}
 
 }

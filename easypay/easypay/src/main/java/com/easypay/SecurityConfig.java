@@ -1,8 +1,11 @@
 package com.easypay;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -11,6 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig {
@@ -21,23 +27,27 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
+		    .cors(Customizer.withDefaults())
 			.csrf((csrf) -> csrf.disable()) 
 			.authorizeHttpRequests(authorize -> authorize
 					
+					.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 					//user 
-					.requestMatchers("/api/user/add").permitAll()
-					.requestMatchers("/api/user/token").authenticated()
-					.requestMatchers("/api/user/details").authenticated()
+					.requestMatchers("/api/user/signup").permitAll()
+					.requestMatchers("/api/user/token").permitAll()
+					.requestMatchers("/api/user/details").permitAll()
 					
-					// jobtitle
+					//jobtitle
 					.requestMatchers("/api/jobtitle/add").hasAuthority("HR MANAGER")
 					.requestMatchers("/api/jobtitle/get-all").hasAuthority("HR MANAGER")
 					
 					//employee
 					.requestMatchers("/api/employee/add/{departmentId}/{jobTitleId}").hasAuthority("HR MANAGER")
 					.requestMatchers("/api/employee/get-all").hasAnyAuthority("HR MANAGER","SUPERVISOR")
-					.requestMatchers("/api/employee/get-one").authenticated()
+					.requestMatchers("/api/employee/get-one").permitAll()
 					.requestMatchers("/api/employee/get-one/{employeeId}").hasAnyAuthority("HR MANAGER","SUPERVISOR")
+					.requestMatchers("/api/employee/update/{employeeId}").hasAuthority("EMPLOYEE")
+					.requestMatchers("/api/employee/upload/profile-pic").hasAuthority("EMPLOYEE")
 					
 					//benefit
 					.requestMatchers("/api/benefit/add").hasAuthority("PAYROLL PROCESSOR")
@@ -53,15 +63,24 @@ public class SecurityConfig {
 					
 					//leave
 					.requestMatchers("/api/leave/add/{employeeId}").hasAuthority("EMPLOYEE")
-					.requestMatchers("/api/leave/get-one/{leaveId}").hasAnyAuthority("EMPLOYEE","SUPERVISOR")
+					.requestMatchers("/api/leave/get-one/{leaveId}").permitAll()
 					.requestMatchers("/api/leave/get-all").hasAuthority("SUPERVISOR")
 					.requestMatchers("/api/leave/{leaveId}/status").hasAuthority("SUPERVISOR")
+					.requestMatchers("/api/leave/get-all/{employeeId}").permitAll()
 					
+					//timesheets
+					.requestMatchers("/api/timesheet/add/{employeeId}").hasAuthority("EMPLOYEE")
+					.requestMatchers("/api/timesheet/get-all/{employeeId}").hasAnyAuthority("EMPLOYEE","SUPERVISOR")
+					.requestMatchers("/api/timesheet/get-by-weekstart/{employeeId}").hasAnyAuthority("EMPLOYEE","SUPERVISOR")
+					
+					//payroll
+					.requestMatchers("/api/payroll/add/{employeeId}").hasAuthority("PAYROLL PROCESSOR")
+					.requestMatchers("/api/payroll/get-all").hasAuthority("PAYROLL PROCESSOR")
+					.requestMatchers("/api/payroll/get-one/{payrollId}").hasAnyAuthority("EMPLOYEE","PAYROLL PROCESSOR")
+					.requestMatchers("/api/payroll/get-all/{employeeId}").permitAll()
 					
 					.requestMatchers("/api/supervisor/add").hasAuthority("HR MANAGER")
 					.requestMatchers("/api/supervisor/get-all").hasAuthority("HR MANAGER")
-					
-					
 					
 				.anyRequest().authenticated()  
 			)
@@ -80,5 +99,19 @@ public class SecurityConfig {
 			throws Exception {
 		  return auth.getAuthenticationManager();
 	 }
+	
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+	    CorsConfiguration config = new CorsConfiguration();
+	    config.setAllowedOrigins(List.of("http://localhost:5173"));
+	    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+	    config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+	    //config.setAllowCredentials(true);
+
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", config);
+	    return source;
+	}
+
 
 }

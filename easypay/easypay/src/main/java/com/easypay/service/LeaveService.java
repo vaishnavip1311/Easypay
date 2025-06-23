@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.easypay.exception.ResourceNotFoundException;
 import com.easypay.model.Employee;
 import com.easypay.model.Leave;
 import com.easypay.repository.EmployeeRepository;
@@ -51,6 +52,12 @@ public class LeaveService {
 		leave.setStatus(status);
 		
 		return leaveRepository.save(leave);
+	}
+
+	public List<Leave> getAllLeavesByEmployeeId(int employeeId) {
+		employeeRepository.findById(employeeId)
+		            .orElseThrow(()->new ResourceNotFoundException("Employee not found.  Id given is invalid"));
+		return leaveRepository.getAllLeavesByEmployeeId(employeeId);
 	}
 
 }

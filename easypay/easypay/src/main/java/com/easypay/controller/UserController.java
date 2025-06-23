@@ -5,6 +5,7 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.easypay.util.JwtUtil;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 	
 	@Autowired
@@ -26,7 +28,7 @@ public class UserController {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	@PostMapping("/add")
+	@PostMapping("/signup")
 	public User addUser(@RequestBody User user ) {
 		return userService.addUser(user);
 	}

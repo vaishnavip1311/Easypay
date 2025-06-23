@@ -31,6 +31,9 @@ public class Employee {
 	
 	private String status;
 	
+	@OneToOne
+	private BankDetails bankDetails;
+	
 	@ManyToOne
 	private JobTitle jobTitle;
 	
@@ -45,9 +48,20 @@ public class Employee {
 	
 	@ManyToOne
 	private PayrollPolicy payrollPolicy;
+	
+	@Column(name = "profile_pic")
+	private String profilePic;
 
 	public int getId() {
 		return id;
+	}
+
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
 	}
 
 	public void setId(int id) {
@@ -141,6 +155,15 @@ public class Employee {
 	public void setPayrollPolicy(PayrollPolicy payrollPolicy) {
 		this.payrollPolicy = payrollPolicy;
 	}
+
+	public BankDetails getBankDetails() {
+		return bankDetails;
+	}
+
+	public void setBankDetails(BankDetails bankDetails) {
+		this.bankDetails = bankDetails;
+	}
+	
 	
 	
 
