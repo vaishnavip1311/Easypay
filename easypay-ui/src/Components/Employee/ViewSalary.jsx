@@ -2,10 +2,15 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEmployee } from "../../store/actions/EmployeeAction";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import "./ViewSalary.css"
 
 function ViewSalary() {
     const dispatch = useDispatch();
     const employee = useSelector(state => state.employee.employee);
+
+    let [page, setpage] = useState(0);
+    let [size, setSize] = useState(5);
 
     const [payrolls, setPayrolls] = useState([]);
 
@@ -19,10 +24,9 @@ function ViewSalary() {
         if (!empId) return;
 
         const getPayrolls = async () => {
-            setLoading(true);
-            setError(null);
+            
             try {
-                const response = await axios.get('http://localhost:8081/api/payroll/get-all/' + empId,
+                const response = await axios.get('http://localhost:8081/api/payroll/get-all/' + empId + `?page=${page}&size=${size}` ,
                     { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } }
                 );
                 //console.log(response.data)
@@ -34,47 +38,71 @@ function ViewSalary() {
         };
 
         getPayrolls();
-    }, [empId]);
+    }, [empId,page]);
 
     return (
-        <div className="container">
+        <div className="salary-container">
             <h2>Salary Details</h2>
-            <div className="card card-body">
+            <div className="salary-card-cont card-body">
                 <div className="card-text">Employee Id:  {employee.id}</div>
                 <div className="card-text">Name:  {employee.name}</div>
             </div>
-            
-                
-                    {payrolls.map((payroll) => (
-                        <div className="card" key={payroll.id}>
 
-                            <div className="card-body">
-                                <div className="card-text">Pay Period : {payroll.payPeriod}</div>
-                                <div className="card-text">Net Salary: {payroll.netSalary}</div>
-                            </div>
+            <table className="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Payroll ID</th>
+                        <th scope="col">Pay Period</th>
+                        <th scope="col">Basic Salary</th>
+                        <th scope="col">Net Salary</th>
+                        <th scope="col">STATUS</th>
+                        <th scope="col">Processed On</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        payrolls.map((payroll, index) => (
+                            <tr key={payroll.id}>
+                                <td>{payroll.id}</td>
+                                <td>{payroll.payPeriod}</td>
+                                <td>{payroll.basicSalary}</td>
+                                <td>{payroll.netSalary}</td>
+                                <td>{payroll.status}</td>
+                                <td>{payroll.processedOn}</td>
+                                <td><Link className="salary-view-btn" to={`/employee/salary-details/${payroll.id}`}>View</Link></td>
+                                
+                            </tr>
+                        ))
+                    }
 
-                            <div className="card-body">
-                                <div className="card-header">Earnings Breakdown</div>
-                                <div className="card-text">Basic Salary: {payroll.basicSalary}</div>
-                                <div className="card-text">HRA: {payroll.hra}</div>
-                                <div className="card-text">DA: {payroll.da}</div>
-                                <div className="card-text">Other Allowances: {payroll.otherAllowances}</div>
-                                <div className="card-text">Gross Earnings: {payroll.totalEarnings}</div>
-                            </div>
+                </tbody>
+            </table>
 
-                            <div className="card-body">
-                                <div className="card-header">Deductions</div>
-                                <div className="card-text">Tax : {payroll.taxDeduction}</div>
-                                <div className="card-text">PF: {payroll.pfContribution}</div>
-                                <div className="card-text">Leave Deduction: {payroll.unpaidLeaveDeduction}</div>
-                                <div className="card-text">Total Deductions: {payroll.totalDeductions}</div>
-                            </div>
-
-
-                        </div>
-                    ))}
-              
-            
+            <nav aria-label="Page navigation example">
+                <ul className="pagination">
+                    <li className="page-item">
+                        <a className="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <button onClick={()=>{
+                                setpage(page-1)
+                                //console.log(page)
+                            }}>Previous</button>
+                        </a>
+                    </li>
+                    <li className="page-item"><a className="page-link" onClick={()=>setpage(0)}>1</a></li>
+                    <li className="page-item"><a className="page-link" onClick={()=>setpage(1)}>2</a></li>
+                    <li className="page-item"><a className="page-link" onClick={()=>setpage(2)}>3</a></li>
+                    <li className="page-item">
+                        <a className="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <button  onClick={()=>{
+                                setpage(page+1)
+                            }}>Next</button>
+                        </a>
+                    </li>
+                </ul>
+            </nav>   
         </div>
     );
 }

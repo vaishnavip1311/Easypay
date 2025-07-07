@@ -27,7 +27,6 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
-		    .cors(Customizer.withDefaults())
 			.csrf((csrf) -> csrf.disable()) 
 			.authorizeHttpRequests(authorize -> authorize
 					
@@ -40,6 +39,9 @@ public class SecurityConfig {
 					//jobtitle
 					.requestMatchers("/api/jobtitle/add").hasAuthority("HR MANAGER")
 					.requestMatchers("/api/jobtitle/get-all").hasAuthority("HR MANAGER")
+					.requestMatchers("/api/jobtitle/get-one/{id}").hasAuthority("HR MANAGER")
+					.requestMatchers("/api/jobtitle/update/{id}").hasAuthority("HR MANAGER")
+					.requestMatchers("/api/jobtitle/delete/{id}").hasAuthority("HR MANAGER")
 					
 					//employee
 					.requestMatchers("/api/employee/add/{departmentId}/{jobTitleId}").hasAuthority("HR MANAGER")
@@ -48,10 +50,13 @@ public class SecurityConfig {
 					.requestMatchers("/api/employee/get-one/{employeeId}").hasAnyAuthority("HR MANAGER","SUPERVISOR")
 					.requestMatchers("/api/employee/update/{employeeId}").hasAuthority("EMPLOYEE")
 					.requestMatchers("/api/employee/upload/profile-pic").hasAuthority("EMPLOYEE")
+					.requestMatchers("/api/employee/dashboard/{employeeId}").hasAuthority("EMPLOYEE")
 					
 					//benefit
 					.requestMatchers("/api/benefit/add").hasAuthority("PAYROLL PROCESSOR")
 					.requestMatchers("/api/benefit/get-all").hasAuthority("PAYROLL PROCESSOR")
+					.requestMatchers("/api/benefit/update/{id}").hasAuthority("PAYROLL PROCESSOR")
+					.requestMatchers("/api/benefit/delete/{id}").hasAuthority("PAYROLL PROCESSOR")
 					
 					//employee-benefits
 					.requestMatchers("/api/employee-benefits/assign/{employeeId}").hasAuthority("PAYROLL PROCESSOR")
@@ -60,6 +65,10 @@ public class SecurityConfig {
 					
 					//payroll policy
 					.requestMatchers("/api/payrollpolicy/add").hasAuthority("HR MANAGER")
+					.requestMatchers("/api/payrollpolicy/get-all").hasAuthority("HR MANAGER")
+					.requestMatchers("/api/payrollpolicy/get-one").hasAuthority("HR MANAGER")
+					.requestMatchers("/api/payrollpolicy/update/{id}").hasAuthority("HR MANAGER")
+					.requestMatchers("/api/payrollpolicy/delete/{id}").hasAuthority("HR MANAGER")
 					
 					//leave
 					.requestMatchers("/api/leave/add/{employeeId}").hasAuthority("EMPLOYEE")
@@ -76,11 +85,24 @@ public class SecurityConfig {
 					//payroll
 					.requestMatchers("/api/payroll/add/{employeeId}").hasAuthority("PAYROLL PROCESSOR")
 					.requestMatchers("/api/payroll/get-all").hasAuthority("PAYROLL PROCESSOR")
+					.requestMatchers("/api/payroll/get-all-filtered").hasAuthority("PAYROLL PROCESSOR")
 					.requestMatchers("/api/payroll/get-one/{payrollId}").hasAnyAuthority("EMPLOYEE","PAYROLL PROCESSOR")
 					.requestMatchers("/api/payroll/get-all/{employeeId}").permitAll()
 					
 					.requestMatchers("/api/supervisor/add").hasAuthority("HR MANAGER")
 					.requestMatchers("/api/supervisor/get-all").hasAuthority("HR MANAGER")
+					
+					//hr manager
+					.requestMatchers("/api/hrmanager/upload/profile-pic").authenticated()
+					.requestMatchers("/api/hrmanager/get-one").authenticated()
+					.requestMatchers("/api/hrmanager/update/{hrId}").authenticated()
+					.requestMatchers("/api/hr-manager/dashboard/summary").authenticated()
+					
+					//processor
+					.requestMatchers("/api/payroll-processor/upload/profile-pic").authenticated()
+					.requestMatchers("/api/payroll-processor/get-one").authenticated()
+					.requestMatchers("/api/payroll-processor/update/{processorId}").authenticated()
+					.requestMatchers("/api/payroll-processor/dashboard").authenticated()
 					
 				.anyRequest().authenticated()  
 			)

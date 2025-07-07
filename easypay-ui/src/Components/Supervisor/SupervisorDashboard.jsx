@@ -1,8 +1,17 @@
+import Navbar from "../Navbar";
+import SupervisorSidebar from "./SupervisorSidebar";
+
 function SupervisorDashboard(){
 
     return(
-        <div>
-            <h1>Supervisor Dashboard</h1>
+        <div style={{display: 'flex'}}>
+            <SupervisorSidebar />
+            <div style={{flexGrow: 1}}>
+                <Navbar />
+                <div className="employee-dashboard-content"> 
+                    <Outlet />
+                </div>
+            </div>
         </div>
     )
 

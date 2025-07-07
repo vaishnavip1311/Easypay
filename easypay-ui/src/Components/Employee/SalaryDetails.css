@@ -1,0 +1,69 @@
+.salary-breakdown-container {
+  max-width: 100%;
+  height: 1100px;
+  background-color: rgb(158, 153, 145);
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border-radius: 2px;
+  align-items: center;
+}
+.salary-details-card{
+  all: unset;
+  width: 1060px;
+  background-color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.salary-details-card card-text{
+  font-size: 2rem;
+    color: #333333;
+    margin-bottom: 8px;
+}
+.salary-breakdown-container h2{
+    font-size: 2rem;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.salary-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.center-row {
+  justify-content: center;
+}
+
+.salary-card {
+  background-color: #f8f9fa;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  width: 500px;
+  height: 300px;
+  transition: transform 0.3s ease;
+  align-content: center;
+}
+
+.salary-card:hover {
+  transform: translateY(-5px);
+}
+
+.salary-card h3 {
+  margin-bottom: 12px;
+  color: #343a40;
+}
+
+.salary-card p {
+  margin: 6px 0;
+  color: #495057;
+}

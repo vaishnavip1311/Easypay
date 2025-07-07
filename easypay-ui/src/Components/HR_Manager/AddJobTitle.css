@@ -1,0 +1,108 @@
+.jobtitle-container {
+  background-color: #fff;
+  max-width: 38em;
+  padding: 2em 3em;
+  margin: 2em auto;
+  border-radius: 8px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #b9b9b9;
+}
+
+.jobtitle-form{
+    all: unset;
+}
+
+.jobtitle-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.jobtitle-row h4 {
+  color: #f0a500;
+  font-size: 1.4rem;
+  margin-bottom: 1.2em;
+}
+
+.jobtitle-input-group {
+  position: relative;
+  margin-bottom: 1.2em;
+}
+
+.jobtitle-input-group input {
+  width: 100%;
+  color: #000;
+  padding: 1em 1em 1em 4em;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease-in-out;
+  font-size: 1rem;
+}
+
+.jobtitle-input-group input:focus {
+  border-color: #f0a500;
+  outline: none;
+}
+
+.jobtitle-input-icon i {
+  color: #555;
+  transition: color 0.3s;
+}
+
+.jobtitle-input-group-icon .jobtitle-input-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #e5e5e5;
+   color: #555;
+  transition: color 0.3s;
+}
+
+.jobtitle-input-group input:focus + .jobtitle-input-icon {
+  color: #f0a500;
+}
+
+/* Darken placeholder text */
+.jobtitle-input-group input::placeholder {
+  color: #555;
+  opacity: 1;
+}
+
+.jobtitle-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 2em;
+}
+
+.jobtitle-button button {
+  background-color: #f0a500;
+  color: #fff;
+  padding: 0.8em 2em;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.jobtitle-back-button{
+    margin-left: 80px;
+}
+
+.jobtitle-button button:hover {
+  background-color: #d48806;
+  transform: translateY(-2px);
+}
+
+.jobtitle-button button:active {
+  background-color: #bd8200;
+  transform: translateY(0);
+}

@@ -4,18 +4,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import './updateprofile.css';
 
-
 function UpdateProfile() {
-
-    let [name, setName] = useState("");
-    let [email, setEmail] = useState("");
-    let [phone, setPhone] = useState("");
-    let [gender, setGender] = useState("");
-    let [address, setAddress] = useState("");
-    let [msg, setMsg] = useState("");
-
     const dispatch = useDispatch();
     const employee = useSelector(state => state.employee.employee);
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [gender, setGender] = useState("");
+    const [address, setAddress] = useState("");
+    const [msg, setMsg] = useState("");
 
     useEffect(() => {
         dispatch(fetchEmployee());
@@ -24,7 +22,6 @@ function UpdateProfile() {
     const empId = employee.id;
 
     const updateEmployee = async () => {
-
         try {
             await axios.put(`http://localhost:8081/api/employee/update/` + empId,
                 {
@@ -43,52 +40,126 @@ function UpdateProfile() {
                 }
             );
             setMsg("Details Updated successfully!!!!");
-
         } catch (error) {
             setMsg("Operation Failed, Try again")
         }
     }
 
     return (
-        <div className="card">
-            <div className="card-body">
-                <h5>📝Update Details</h5>
-                {
-                    msg != "" ? <div className="mb-4">
-                        <div className="alert alert-primary">
-                            {msg}
+        <div style={{
+            fontFamily: 'Inter, sans-serif', backgroundColor: '#f3f4f6', display: 'flex', justifyContent: 'center',
+            alignItems: 'flex-start', minHeight: '100vh', padding: '10px', boxSizing: 'border-box', width: '100%',
+        }}>
+            <div style={{ maxWidth: '80rem', width: '100%', margin: '0 auto', padding: '0.5rem', }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    <div className="updateprofile-card-container">
+                        {/* Profile Picture Card */}
+                        <div className="w-full profile-card mb-3">
+                            <h2
+                                style={{ fontSize: '1.25rem', fontWeight: '600', color: '#2d3748', marginBottom: '0.75rem', width: '100%', textAlign: 'left', }}>
+                                Profile Picture
+                            </h2>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    marginBottom: '0.5rem',
+                                }}
+                            >
+                                <div className="profile-text-circle">
+                                    <img
+                                        src="/images/vaishnavi.jpeg" // Replace with your actual image URL
+                                        alt="Profile"
+                                        className="profile-image"
+                                    />
+                                </div>
+                            </div>
                         </div>
-                    </div> : ""
-                }
-                <div className="mb-3">
-                    <label>Name :&nbsp;&nbsp;&nbsp;</label>
-                    <input type="text" value={employee.name} onChange={$e => setName($e.target.value)}></input>
-                </div>
-                <div className="mb-3">
-                    <label>Gender :&nbsp;&nbsp;&nbsp;</label>
-                    <select id="gender" name="gender" value={gender} onChange={$e => setGender($e.target.value)} className="gender-select">
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div className="mb-3">
-                    <label>Email :&nbsp;&nbsp;&nbsp;</label>
-                    <input type="text" value={employee.email} onChange={$e => setEmail($e.target.value)}></input>
-                </div>
-                <div className="mb-3">
-                    <label>Phone :&nbsp;&nbsp;&nbsp;</label>
-                    <input type="text" value={employee.phone} onChange={$e => setPhone($e.target.value)}></input>
-                </div>
-                <div>
-                    <label>Address:&nbsp;&nbsp;&nbsp;</label>
-                    <textarea rows="4" cols="50" value={employee.address} onChange={$e => setAddress($e.target.value)}></textarea>
-                </div>
-                <div className="mb-3">
-                    <button className="btn btn-primary" onClick={() => updateEmployee()}>Update</button>
 
-                    <button className="btn btn-primary">Cancel</button>
+                        {/* Personal Details Card */}
+                        <div className="w-full account-card">
+                            <div
+                                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', }}>
+                                <h2
+                                    style={{ fontSize: '1.25rem', fontWeight: '600', color: '#2d3748', }}>
+                                    Personal Information
+                                </h2>
+                            </div>
+
+                            <div>
+                                {/* Username */}
+                                <div className="mb-2">
+                                    <label className="form-label">
+                                        Employee Id
+                                    </label>
+                                    <div className="display-detail">{employee.id}</div>
+                                </div>
+
+                                {/* First and Last Name */}
+                                <div className="grid-cols-1 md:grid-cols-2">
+                                    <div>
+                                        <label className="form-label">Employee Name :</label>
+                                        <div className="display-detail">{employee.name}</div>
+                                    </div>
+                                    <div>
+                                        <label className="form-label">Gender</label>
+                                        <div className="display-detail">{employee.gender}</div>
+                                    </div>
+                                </div>
+
+                                {/* Email */}
+                                <div className="m2-5">
+                                    <label className="form-label">Email</label>
+                                    <div className="display-detail">{employee.email}</div>
+                                </div>
+
+                                {/* Phone and Birthday */}
+                                <div
+                                    className="grid-cols-1 md:grid-cols-2"
+                                    style={{ marginBottom: '1rem' }}
+                                >
+                                    <div>
+                                        <label className="form-label">Phone number</label>
+                                        <div className="display-detail">{employee.phone}</div>
+                                    </div>
+                                    <div>
+                                        <label className="form-label">Address</label>
+                                        <div className="display-detail">{employee.address}</div>
+                                    </div>
+                                </div>
+                                <div className="m2-5">
+                                    <label className="form-label">Job Title</label>
+                                    <div className="display-detail">{employee.jobTitle?.titleName}</div>
+                                </div>
+                                {/* Organization and Location */}
+                                <div className="grid-cols-1 md:grid-cols-2">
+                                    <div>
+                                        <label className="form-label">Employement Type</label>
+                                        <div className="display-detail">{employee.employementType}</div>
+                                    </div>
+                                    <div>
+                                        <label className="form-label">Joining Date</label>
+                                        <div className="display-detail">{employee.joiningDate}</div>
+                                    </div>
+                                </div>
+                                <div className="m2-5">
+                                    <label className="form-label">Payroll Policy</label>
+                                    <div className="display-detail">{employee.payrollPolicy?.name}</div>
+                                </div>
+                                <div className="grid-cols-1 md:grid-cols-2">
+                                    <div>
+                                        <label className="form-label">Basic Salary</label>
+                                        <div className="display-detail">{employee.jobTitle?.basicSalary}</div>
+                                    </div>
+                                    <div>
+                                        <label className="form-label">Status</label>
+                                        <div className="display-detail">{employee.status}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

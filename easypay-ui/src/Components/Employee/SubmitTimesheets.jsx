@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchEmployee } from "../../store/actions/EmployeeAction";
 import { Link } from "react-router-dom";
 
+import "./Timesheets.css";
+
 function SubmitTimesheets() {
 
     const initialWeek = [
@@ -77,7 +79,7 @@ function SubmitTimesheets() {
 };
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5 submit-timesheets-container">
             <h2 className="mb-4">Weekly Timesheet</h2>
             <table className="table table-bordered table-hover text-center">
                 <thead className="table-dark">

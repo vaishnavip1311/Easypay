@@ -1,0 +1,106 @@
+.hr-profile-card {
+  display: flex;
+  background: #f9f9f9;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  max-width: 1100px;
+  margin: 40px auto;
+}
+
+.hr-profile-left {
+  width: 50%;
+  padding: 40px;
+  background-color: #fff;
+}
+
+.hr-profile-left h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  color: #333;
+}
+
+.hr-profile-form label {
+  display: block;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+.hr-readonly-input {
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #e1dede;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.hr-edit-btn {
+  background: #457b9d;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.hr-profile-content {
+  margin: auto;
+  padding: 24px;
+  width: 80%;
+  height: 80%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.hr-profile-img {
+  width: 100%;
+  height: 70%;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.change-profile-btn {
+    margin-top: 40px;
+  background: #4310b1;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.change-profile-btn:hover {
+  background: #1d3557;
+}
+
+
+.hr-editable-input {
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  width: 100%;
+}
+.hr-profile-right {
+  width: 50%;
+  background-color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}

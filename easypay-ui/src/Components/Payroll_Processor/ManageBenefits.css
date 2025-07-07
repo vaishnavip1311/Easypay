@@ -1,0 +1,114 @@
+.benefit-container-style {
+  max-width: 100%;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: "Open Sans", sans-serif;
+  height: 600px;
+}
+
+.benefit-container-style h1 {
+  color: #f0a500;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.options-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.options-table th,
+.options-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 15px;
+}
+
+.options-table td {
+    color: #000;
+}
+
+.options-table th {
+  background: linear-gradient(to bottom, #555, #333);
+  color: white;
+  font-weight: bold;
+}
+
+.options-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.options-table tr:hover {
+  background-color: #f1f1f1;
+  transition: 0.3s ease;
+}
+
+.options-table td strong {
+  font-weight: 600;
+}
+
+
+/* Shared button base */
+.benefit-table-btn {
+  padding: 10px 15px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Edit Button */
+.benefit-edit-btn {
+  background-color: #007bff;
+  color: white;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.benefit-edit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Delete Button */
+.benefit-delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+.benefit-delete-btn:hover {
+  background-color: #a71d2a;
+}
+
+/* Add space between buttons */
+.benefit-delete-btn {
+  margin-left: 20px;
+}
+
+.benefit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.benefit-add-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.benefit-add-btn:hover {
+  background-color: #218838;
+}
+

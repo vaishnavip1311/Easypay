@@ -1,8 +1,18 @@
 import "./Sidebar.css";
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from 'react-router-dom';
+import { fetchEmployee } from "../../store/actions/EmployeeAction";
 
 function Sidebar() {
+
+  const dispatch = useDispatch();
+  const employee = useSelector(state => state.employee.employee);
+    
+    useEffect(() => {
+        dispatch(fetchEmployee());
+    }, [dispatch]);
+  
   return (
     <aside className="sidebar">
       <ul className="sidebar-links">
@@ -19,15 +29,9 @@ function Sidebar() {
           </Link>
         </li>
         <li>
-          <Link to="/employee/details">
-            <span className="material-symbols-outlined">person_outline</span>
-            View Profile
-          </Link>
-        </li>
-        <li>
-          <Link to="/employee/edit-details">
-            <span className="material-symbols-outlined">edit_note</span>
-            Update Profile
+          <Link to="/employee/profile">
+            <span className="material-symbols-outlined">account_circle</span>
+            Profile
           </Link>
         </li>
         <li>
@@ -62,39 +66,18 @@ function Sidebar() {
         </h4>
         <li>
           <a href="#">
-            <span className="material-symbols-outlined">account_circle</span>
-            Profile
-          </a>
-        </li>
-        <li>
-          <a href="#">
             <span className="material-symbols-outlined">notifications</span> {/* notifications_active looks different */}
             Notifications
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span className="material-symbols-outlined">settings</span>
-            Settings
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span className="material-symbols-outlined">logout</span>
-            Logout
           </a>
         </li>
       </ul>
 
       <div className="user-account">
         <div className="user-profile">
-          {/* If you have a local profile image, use it here: */}
-          {/* <img src={profileImg} alt="Profile Image" /> */}
-          {/* Otherwise, use a placeholder or remove if not needed */}
-          <img src="/images/vaishnavi.jpeg" alt="Profile Image" /> {/* Placeholder image */}
+          <img style={{'height':'50px'}} src={`../images/${employee.profilePic}`} alt="Profile Image" /> {/* Placeholder image */}
           <div className="user-detail">
-            <h3>Vaishnavi Patil</h3>
-            <span>Senior Developer</span>
+            <h3>{employee.name}</h3>
+            <span>{employee.jobTitle?.titleName}</span>
           </div>
         </div>
       </div>

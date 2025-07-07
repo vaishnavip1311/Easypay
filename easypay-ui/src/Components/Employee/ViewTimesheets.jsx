@@ -3,10 +3,14 @@ import { fetchEmployee } from "../../store/actions/EmployeeAction";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+import "./Timesheets.css";
+import { Link } from "react-router-dom";
+
 function ViewTimesheets() {
 
     const [weekStart, setWeekStart] = useState("");
     const [timesheetData, setTimesheetData] = useState([]);
+    const [hasSearched, setHasSearched] = useState(false);
     const dispatch = useDispatch();
     const employee = useSelector(state => state.employee.employee);
 
@@ -23,23 +27,29 @@ function ViewTimesheets() {
         }
         try {
             const response = await axios.get(
-    `http://localhost:8081/api/timesheet/get-by-weekstart/${empId}`,
-    {
-      params: { weekStart },
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
+                `http://localhost:8081/api/timesheet/get-by-weekstart/${empId}`,
+                {
+                    params: { weekStart },
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
             setTimesheetData(response.data);
+            setHasSearched(true);
         } catch (error) {
             alert("Error retrieving timesheet.");
         }
     }
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5 view-timesheets-container">
+            <div className="text-end mb-3">
+                <Link to="/employee" className="btn btn-secondary view-timesheets-back">
+                    Back
+                </Link>
+            </div>
 
             <h2 className="mb-4">View Weekly Timesheet</h2>
             <div className="card card-body">
@@ -47,8 +57,8 @@ function ViewTimesheets() {
                 <div className="card-text">Name:  {employee.name}</div>
             </div>
 
-            <div className="mb-3">
-                <label>Week Start Date:</label>
+            <div className="mb-3 view-timesheets-weekstart">
+                <label className="view-timesheets-label">Week Start Date:</label>
                 <input
                     type="date"
                     className="form-control"
@@ -57,9 +67,14 @@ function ViewTimesheets() {
                 />
             </div>
 
-            <button onClick={showTimesheets} className="btn btn-primary mb-4">
-                View Timesheet
-            </button>
+            <div className="text-center">
+                <button onClick={showTimesheets} className="btn btn-primary view-timesheets-button">
+                    View Timesheet
+                </button>
+            </div>
+
+
+
             {timesheetData.length > 0 && (
                 <table className="table table-bordered table-striped text-center">
                     <thead className="table-dark">
@@ -86,9 +101,9 @@ function ViewTimesheets() {
                 </table>
             )}
 
-{timesheetData.length === 0 && (
-        <p className="text-muted">No data available for selected week.</p>
-      )}
+            {hasSearched && timesheetData.length === 0 && (
+                <p className="text-muted">No data available for selected week.</p>
+            )}
         </div>
     )
 }

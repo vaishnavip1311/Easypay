@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.png"
+import logo from "../assets/logo.png"
 function Navbar() {
 
 
@@ -12,7 +12,7 @@ function Navbar() {
     }
 
     return (
-        <nav className="navbar navbar-light bg-light d-flex align-items-center" style={{padding: '0 1rem'}}>
+        <nav className="navbar navbar-light bg-light d-flex align-items-center" style={{padding: '0 1rem', zIndex: 1020, position: 'fixed', top: 0, left: 0, width: '100%'}}>
             <div className="navbar-brand">
                 <img src={logo} alt="Logo" style={{height: '40px'}} />
             </div>

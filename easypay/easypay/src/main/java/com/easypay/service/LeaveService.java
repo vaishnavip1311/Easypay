@@ -2,6 +2,8 @@ package com.easypay.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.easypay.exception.ResourceNotFoundException;
@@ -32,8 +34,9 @@ public class LeaveService {
 		return leaveRepository.save(leave);
 	}
 
-	public List<Leave> getAll() {
-		return leaveRepository.findAll();
+	public List<Leave> getAll(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return leaveRepository.findAll(pageable).getContent();
 	}
 
 	public Leave getLeaveById(int leaveId) {
@@ -54,10 +57,11 @@ public class LeaveService {
 		return leaveRepository.save(leave);
 	}
 
-	public List<Leave> getAllLeavesByEmployeeId(int employeeId) {
+	public List<Leave> getAllLeavesByEmployeeId(int employeeId,int page, int size) {
 		employeeRepository.findById(employeeId)
 		            .orElseThrow(()->new ResourceNotFoundException("Employee not found.  Id given is invalid"));
-		return leaveRepository.getAllLeavesByEmployeeId(employeeId);
+		Pageable pageable = PageRequest.of(page, size);
+		return leaveRepository.getAllLeavesByEmployeeId(employeeId,pageable);
 	}
 
 }

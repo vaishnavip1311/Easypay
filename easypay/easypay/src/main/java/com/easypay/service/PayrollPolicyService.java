@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.easypay.exception.ResourceNotFoundException;
 import com.easypay.model.PayrollPolicy;
 
 @Service
@@ -44,6 +45,11 @@ public class PayrollPolicyService {
 
 	public void deletePayrollPolicy(int id) {
 		payrollPolicyRepository.deleteById(id);
+	}
+
+	public PayrollPolicy getPayrollPolicy(int id) {
+		return payrollPolicyRepository.findById(id)
+				.orElseThrow(()->new ResourceNotFoundException("Id given is invalid"));
 	}
 	
 

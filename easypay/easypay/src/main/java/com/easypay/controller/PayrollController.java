@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.easypay.model.Payroll;
@@ -29,8 +30,15 @@ public class PayrollController {
     }
 
     @GetMapping("/get-all")
-    public List<Payroll> getAll() {
-    	return payrollService.getAll();
+    public List<Payroll> getAll(
+    		@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(name = "size", required = false, defaultValue = "1000000") Integer size) {
+    	return payrollService.getAll(page,size);
+    }
+    
+    @GetMapping("/get-all-filtered")
+    public List<Payroll> getFilteredPayrolls(@RequestParam String status){
+    	return payrollService.getFilteredPayrolls(status);
     }
     
     @GetMapping("/get-one/{payrollId}")
@@ -39,8 +47,12 @@ public class PayrollController {
     }
     
     @GetMapping("/get-all/{employeeId}")
-    public List<Payroll> getAllPayrollsForEmployee(@PathVariable int employeeId){
-    	return payrollService.getAllPayrollsForEmployee(employeeId);
+    public List<Payroll> getAllPayrollsForEmployee(@PathVariable int employeeId,
+    		@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(name = "size", required = false, defaultValue = "1000000") Integer size){
+    	return payrollService.getAllPayrollsForEmployee(employeeId,page,size);
     }
+    
+    
 
 }

@@ -6,8 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.easypay.model.Employee;
+import com.easypay.model.HRManager;
+import com.easypay.model.PayrollProcessor;
 import com.easypay.model.User;
 import com.easypay.repository.EmployeeRepository;
+import com.easypay.repository.HRManagerRepository;
+import com.easypay.repository.PayrollProcessorRepository;
 import com.easypay.repository.UserRepository;
 
 @Service
@@ -16,13 +20,18 @@ public class UserService {
 	private UserRepository userRepository;
 	private PasswordEncoder passwordEncoder;
 	private EmployeeRepository employeeRepository;
+	private HRManagerRepository hrManagerRepository;
+	private PayrollProcessorRepository payrollProcessorRepository;
 
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-			EmployeeRepository employeeRepository) {
+			EmployeeRepository employeeRepository, HRManagerRepository hrManagerRepository,
+			PayrollProcessorRepository payrollProcessorRepository) {
 		super();
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.employeeRepository = employeeRepository;
+		this.hrManagerRepository = hrManagerRepository;
+		this.payrollProcessorRepository = payrollProcessorRepository;
 	}
 
 	public User addUser(User user) {
@@ -46,6 +55,14 @@ public class UserService {
 		case "EMPLOYEE":
 			Employee employee = employeeRepository.getEmployeeByUsername(username);
 			return employee;
+		case "HR MANAGER":
+			HRManager hrManager = hrManagerRepository.getHrManagerByUsername(username);
+			return hrManager;
+		case "PAYROLL PROCESSOR":
+			PayrollProcessor payrollProcessor = payrollProcessorRepository.findProcessorByUsername(username);
+			return payrollProcessor;
+		case "SUPERVISOR":
+			return null;
 			
 		default:
 			return null;

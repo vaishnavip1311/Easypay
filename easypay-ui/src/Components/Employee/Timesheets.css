@@ -1,0 +1,77 @@
+.view-timesheets-container {
+    background-color: #f0f8ff; /* Light blue background */
+    color: #002244; /* Darker blue text */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.view-timesheets-container h2 {
+    text-align: center;
+    color: #002244; /* Darker blue for h2 text */
+}
+
+.view-timesheets-container label.view-timesheets-label {
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    display: inline-block !important;
+    color: #002244 !important;
+    margin-right: 10px !important;
+    vertical-align: middle !important;
+}
+
+
+.view-timesheets-weekstart {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.view-timesheets-container input[type="date"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 10px;
+    width: 200px; /* Fixed width */
+    max-width: 100%; /* Prevent overflow */
+    box-sizing: border-box;
+    vertical-align: middle;
+    margin-bottom: 0; /* Remove margin that might push it down */
+}
+
+
+.view-timesheets-container button.btn-primary.view-timesheets-button {
+    display: block !important;
+    margin: 0 auto 20px auto !important;
+    padding: 10px 30px !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+}
+
+.submit-timesheets-container {
+    background-color: #faf9f6; /* Light golden background */
+    color: #554400; /* Darker golden text */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.submit-timesheets-container h2 {
+    text-align: center;
+    color: #554400; /* Darker golden for h2 text */
+}
+
+.view-timesheets-button-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* space between buttons */
+    margin-bottom: 25px;
+}
+
+.view-timesheets-button,
+.view-timesheets-back {
+    padding: 10px 30px !important;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+

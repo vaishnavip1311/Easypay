@@ -1,0 +1,81 @@
+.generate-payroll-container {
+  max-width: 500px;
+  height: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #f1faee;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.generate-payroll-container h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #1d3557;
+
+}
+
+.generate-payroll-form{
+    margin: 50px;
+    align-items: center;
+      height: 400px;
+}
+.generate-payroll-form label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #1d3557;
+}
+
+.generate-payroll-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.generate-msg {
+  margin-top: 16px;
+  font-weight: bold;
+  color: rgb(241, 243, 241);
+  text-align: center;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.generate-btn,
+.cancel-btn {
+  flex: 1;
+  padding: 10px;
+  margin: 0 6px;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.generate-btn {
+  background-color: #1d3557;
+  color: white;
+}
+
+.generate-btn:hover {
+  background-color: #457b9d;
+}
+
+.cancel-btn {
+  background-color: #adb5bd;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #6c757d;
+}

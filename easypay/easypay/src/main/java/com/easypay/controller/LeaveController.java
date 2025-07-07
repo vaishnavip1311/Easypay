@@ -31,8 +31,9 @@ public class LeaveController {
     }
 
     @GetMapping("/get-all")
-    public List<Leave> getAll() {
-    	return leaveService.getAll();
+    public List<Leave> getAll(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(name = "size", required = false, defaultValue = "1000000") Integer size) {
+    	return leaveService.getAll(page , size);
     }
     
     @GetMapping("/get-one/{leaveId}")
@@ -49,8 +50,10 @@ public class LeaveController {
     }
     
     @GetMapping("/get-all/{employeeId}")
-    public List<Leave> getAllLeavesByEmployeeId(@PathVariable int employeeId){
-    	return leaveService.getAllLeavesByEmployeeId(employeeId);
+    public List<Leave> getAllLeavesByEmployeeId(@PathVariable int employeeId,
+    		@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(name = "size", required = false, defaultValue = "1000000") Integer size){
+    	return leaveService.getAllLeavesByEmployeeId(employeeId,page,size);
     }
 
 }

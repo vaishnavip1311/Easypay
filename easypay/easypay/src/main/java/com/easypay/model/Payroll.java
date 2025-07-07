@@ -1,5 +1,7 @@
 package com.easypay.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +22,7 @@ public class Payroll {
 	private Employee employee;
 	
 	@Column(name = "pay_period")
-	private String payPeriod;
+	private LocalDate payPeriod;
 	
 	@Column(name = "basic_salary")
 	private double basicSalary;
@@ -55,7 +57,7 @@ public class Payroll {
 	private String status;
 	
 	@Column(name = "processed_on")
-	private String processedOn;
+	private LocalDate processedOn;
 	
 	//getters and setters 
 
@@ -75,11 +77,11 @@ public class Payroll {
 		this.employee = employee;
 	}
 
-	public String getPayPeriod() {
+	public LocalDate getPayPeriod() {
 		return payPeriod;
 	}
 
-	public void setPayPeriod(String payPeriod) {
+	public void setPayPeriod(LocalDate payPeriod) {
 		this.payPeriod = payPeriod;
 	}
 
@@ -171,12 +173,13 @@ public class Payroll {
 		this.status = status;
 	}
 
-	public String getProcessedOn() {
+	public LocalDate getProcessedOn() {
 		return processedOn;
 	}
 
-	public void setProcessedOn(String processedOn) {
+	public void setProcessedOn(LocalDate processedOn) {
 		this.processedOn = processedOn;
 	}
+
 
 }

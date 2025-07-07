@@ -5,6 +5,8 @@ import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.easypay.exception.ResourceNotFoundException;
@@ -67,10 +69,11 @@ public class PayrollService {
         double pfContribution = basic * (policy.getPfRate() / 100.0);
 
         // 4. Compute unpaid leave deductions
-        String payPeriod = payroll.getPayPeriod();
-        LocalDate startDate = YearMonth.parse(payPeriod).atDay(1);
-        LocalDate endDate = YearMonth.parse(payPeriod).atEndOfMonth();
-
+        LocalDate payPeriod = payroll.getPayPeriod();
+        YearMonth yearMonth = YearMonth.from(payPeriod);
+        LocalDate startDate = yearMonth.atDay(1);
+        LocalDate endDate = yearMonth.atEndOfMonth();
+        
         List<Leave> unpaidLeaves = leaveRepository.findApprovedUnpaidLeavesWithinPeriod(employeeId, startDate, endDate);
 
         int unpaidDays = unpaidLeaves.stream()
@@ -98,13 +101,14 @@ public class PayrollService {
         payroll.setTotalDeductions(totalDeductions);
         payroll.setNetSalary(netPay);
         payroll.setStatus("Pending");
-        payroll.setProcessedOn(LocalDate.now().toString());
+        payroll.setProcessedOn(LocalDate.now());
         
 		return payrollRepository.save(payroll);
 	}
 
-	public List<Payroll> getAll() {
-		return payrollRepository.findAll();
+	public List<Payroll> getAll(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return payrollRepository.findAllPayrolls(pageable);
 	}
 
 	public Payroll getPayrollById(int payrollId) {
@@ -112,11 +116,17 @@ public class PayrollService {
 				.orElseThrow(()->new RuntimeException("Invalid Id given"));
 	}
 
-	public List<Payroll> getAllPayrollsForEmployee(int employeeId) {
+	public List<Payroll> getAllPayrollsForEmployee(int employeeId,int page, int size) {
 		employeeRepository.findById(employeeId)
 		.orElseThrow(()->new ResourceNotFoundException("Id given is invalid"));
 		
-		return payrollRepository.getAllPayrollsForEmployee(employeeId);
+		Pageable pageable = PageRequest.of(page, size);
+		
+		return payrollRepository.getAllPayrollsForEmployee(employeeId,pageable);
+	}
+
+	public List<Payroll> getFilteredPayrolls(String status) {
+		return payrollRepository.getFilteredPayrolls(status);
 	}
 
 }

@@ -5,10 +5,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +38,7 @@ public class EmployeeService {
 	private PayrollPolicyRepository payrollPolicyRepository;
 	private UserRepository userRepository;
 	private BankDetailsRepository bankDetailsRepository;
+	Logger logger = LoggerFactory.getLogger(EmployeeService.class);
 
 	public EmployeeService(EmployeeRepository employeeRepository, UserService userService,
 			JobTitleRepository jobTitleRepository, PayrollPolicyRepository payrollPolicyRepository,
@@ -47,6 +53,7 @@ public class EmployeeService {
 	}
 
 	public Employee insertEmployee(Employee employee, int jobTitleId) {
+		logger.info("Inserting employee: {}", employee.getName());
 		//Add user with EMPLOYEE role
 		User user = employee.getUser();
 		user.setRole("EMPLOYEE");
@@ -60,6 +67,7 @@ public class EmployeeService {
 		JobTitle jobTitle = jobTitleRepository.findById(jobTitleId)
 				.orElseThrow(()->new RuntimeException("JobTitle Not Found"));
 		employee.setJobTitle(jobTitle);
+		logger.info("Assigned JobTitle: {}", jobTitle.getTitleName());
 
 		//Determine policy name based on job title
 		  String jobTitleName = jobTitle.getTitleName().toLowerCase();
@@ -109,6 +117,7 @@ public class EmployeeService {
 		            policyName = "Standard Monthly Payroll";
 		            break;
 		    }
+		    logger.info("Determined Payroll Policy: {}", policyName);
 
 		    // Step 4: Fetch an active and effective payroll policy
 		    List<PayrollPolicy> activePolicies = payrollPolicyRepository.findAll().stream()
@@ -130,23 +139,33 @@ public class EmployeeService {
 
 		    // Step 5: Set policy and save
 		    employee.setPayrollPolicy(selectedPolicy);
+		    logger.info("Payroll policy assigned: {}", selectedPolicy.getName());
 		    return employeeRepository.save(employee);
 	}
 
-	public List<Employee> getAll() {
-		return employeeRepository.findAll();
+	public List<Employee> getAll(int page, int size) {
+		logger.info("Fetching all employees with pagination - page: {}, size: {}", page, size);
+		/** Activate Pageable Interface */
+        Pageable pageable = PageRequest.of(page, size);
+		return employeeRepository.findAll(pageable).getContent();
 	}
 
 	public Employee getEmployeeById(int id) {
+		logger.info("Fetching employee by ID: {}", id);
 		return employeeRepository.findById(id)
-				.orElseThrow(()-> new RuntimeException("Invalid ID Given"));
+				.orElseThrow(()-> {
+					logger.error("Invalid employee ID: {}", id);
+					return new RuntimeException("Invalid ID Given");
+				});
 	}
 	
 	public Employee getEmployeeByUsername(String username) {
+		logger.info("Fetching employee by username: {}", username);
 		return employeeRepository.getEmployeeByUsername(username);
 	}
 
 	public Employee updateEmploye(int employeeId, Employee updatedemployee) {
+		logger.info("Updating employee with ID: {}", employeeId);
 		Employee dbEmployee = employeeRepository.findById(employeeId)
 				.orElseThrow(()-> new ResourceNotFoundException("Employee not found id given is invalid."));
 		
@@ -166,25 +185,30 @@ public class EmployeeService {
 		
 		userRepository.save(user);
 		
+		logger.info("Employee updated successfully for ID: {}", employeeId);
 		return employeeRepository.save(dbEmployee);
 	}
 
-	public Employee uploadProfilePic(String username, MultipartFile file) throws IOException{
+	public Employee uploadProfilePic(MultipartFile file, int employeeId) throws IOException{
+		logger.info("Uploading profile picture for employee ID: {}", employeeId);
 		/* Fetch Author Info by username */
-        Employee employee = employeeRepository.getEmployeeByUsername(username);
+        Employee employee = employeeRepository.findById(employeeId)
+        		.orElseThrow(()-> new ResourceNotFoundException("Id given is invalid"));
         
         /* extension check: jpg,jpeg,png,gif,svg : */
         String originalFileName = file.getOriginalFilename(); // profile_pic.png
         
         String extension = originalFileName.split("\\.")[1]; // png
         if (!(List.of("jpg", "jpeg", "png", "gif", "svg").contains(extension))) {
-            throw new RuntimeException("File Extension " + extension + " not allowed " + "Allowed Extensions"
+        	logger.error("Employee not found for profile pic upload, ID: {}", employeeId);
+        	throw new RuntimeException("File Extension " + extension + " not allowed " + "Allowed Extensions"
                     + List.of("jpg", "jpeg", "png", "gif", "svg"));
         }
         
         /* Check the file size */
         long kbs = file.getSize() / 1024;
         if (kbs > 3000) {
+        	logger.warn("File size too large: {} KB", kbs);
             throw new RuntimeException("Image Oversized. Max allowed size is " + kbs);
         }
 
@@ -198,8 +222,59 @@ public class EmployeeService {
         Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         /* Set url of file or image in author object */
         employee.setProfilePic(originalFileName);
+        logger.info("Profile picture uploaded: {}", originalFileName);
         /* Save author Object */
         return employeeRepository.save(employee);
+	}
+	
+	public Employee updateProfilePic(String username, MultipartFile file) throws IOException{
+		logger.info("Updating profile picture for user: {}", username);
+		/* Fetch Author Info by username */
+        Employee employee = employeeRepository.getEmployeeByUsername(username);
+        
+        /* extension check: jpg,jpeg,png,gif,svg : */
+        String originalFileName = file.getOriginalFilename(); // profile_pic.png
+        
+        String extension = originalFileName.split("\\.")[1]; // png
+        if (!(List.of("jpg", "jpeg", "png", "gif", "svg").contains(extension))) {
+        	logger.warn("Invalid file extension: {}", extension);
+        	throw new RuntimeException("File Extension " + extension + " not allowed " + "Allowed Extensions"
+                    + List.of("jpg", "jpeg", "png", "gif", "svg"));
+        }
+        
+        /* Check the file size */
+        long kbs = file.getSize() / 1024;
+        if (kbs > 3000) {
+        	logger.warn("File size too large: {} KB", kbs);
+            throw new RuntimeException("Image Oversized. Max allowed size is " + kbs);
+        }
+
+        /* Check if Directory exists, else create one */
+        String uploadFolder = "C:\\Users\\Vaishnavi patil\\Desktop\\FSD Training Project\\easypay-ui\\public\\images";
+        
+        Files.createDirectories(Path.of(uploadFolder));
+        /* Define the full path */
+        Path path = Paths.get(uploadFolder, "\\", originalFileName);
+        /* Upload file in the above path */
+        Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        /* Set url of file or image in author object */
+        employee.setProfilePic(originalFileName);
+        logger.info("Profile picture updated for user: {}", username);
+        /* Save author Object */
+        return employeeRepository.save(employee);
+	}
+
+	public ResponseEntity<?> updateStatus(int id , String status) {
+		logger.info("Updating status of employee ID: {} to {}", id, status);
+		int updatedCount = employeeRepository.updateStatus(id, status);
+
+	    if (updatedCount > 0) {
+	    	logger.info("Status updated successfully for ID: {}", id);
+	        return ResponseEntity.ok("Employee status updated");
+	    } else {
+	    	logger.warn("Failed to update status. Employee not found with ID: {}", id);
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
+	    }
 	}
 
 	

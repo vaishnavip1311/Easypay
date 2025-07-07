@@ -1,0 +1,40 @@
+.hidden-file-input {
+    display: none;
+}
+
+.file-name {
+    font-size: 0.9rem;
+}
+
+.file-name.no-file {
+    color: red;
+}
+
+.file-name.has-file {
+    color: green;
+}
+
+.file-input-row {
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 100px;
+}
+
+/* Unique style for Change Profile button in UpdateHRProfile */
+.update-hrprofile-edit-button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 133px;
+}
+
+.update-hrprofile-edit-button:hover {
+    background-color: #357abd;
+}

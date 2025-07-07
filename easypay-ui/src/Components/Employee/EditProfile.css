@@ -1,0 +1,148 @@
+/* Profile.css */
+
+/* Profile Picture Card */
+.profile-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.account-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 0.75rem;
+}
+
+/* Profile Picture Circle */
+.profile-text-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid #0f1113;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* Ensures image doesn't overflow the circle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    /* Optional: light background in case image fails */
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensures image covers the area without distortion */
+    border-radius: 50%;
+    /* Ensures the image itself is also circular */
+}
+
+/* Common label style */
+.form-label {
+    display: block;
+    color: #4a5568;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.05rem;
+    margin-top: 10px;
+}
+
+/* Display div for details */
+.display-detail {
+    background-color: #f7fafc;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    color: #222936;
+    border: 1px solid #edf2f7;
+}
+
+/* Buttons */
+.edit-button {
+    background-color: #4299e1;
+    color: white;
+    font-weight: 600;
+    padding: 0.25rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    transition: background-color 300ms ease-in-out;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+        0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.edit-button:hover {
+    background-color: #3182ce;
+}
+
+/* Responsive grid for form fields */
+.grid-cols-1 {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Added container for vertical stacking of cards */
+.editprofile-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .md\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+.editprofile-btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+    margin-left: 300px;
+    margin-right: 80px;
+}
+
+.editprofile-btn-primary {
+    background-color: #4299e1;
+    color: white;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+        0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.editprofile-btn-primary:hover {
+    background-color: #3182ce;
+}
+
+.back-btn-top-right {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: #4a5568;
+    /* dark gray */
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn-top-right:hover {
+    background-color: #2d3748;
+}

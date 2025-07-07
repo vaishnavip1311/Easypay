@@ -1,6 +1,6 @@
 /* Container styling */
-.container {
-    max-width: 900px;
+.manage-leave-container {
+    max-width: 100%;
     margin: 20px auto;
     padding: 15px;
     background-color: #f9f9f9;
@@ -9,7 +9,7 @@
 }
 
 /* Card styling */
-.card {
+.manage-leave-card {
     background-color: #ffffff;
     border-radius: 6px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
@@ -17,7 +17,7 @@
     margin-bottom: 20px;
 }
 
-.card-text {
+.manage-leave-card card-text {
     font-size: 1rem;
     color: #333333;
     margin-bottom: 8px;
@@ -29,6 +29,7 @@
     border-collapse: collapse;
     margin-top: 10px;
     font-family: Arial, sans-serif;
+    align-items: center;
 }
 
 .table-bordered {
@@ -39,7 +40,7 @@
 .table-bordered td {
     border: 1px solid #ddd;
     padding: 10px 12px;
-    text-align: left;
+    text-align: center;
 }
 
 .table-bordered thead {
@@ -73,7 +74,7 @@
 }
 
 /* h1 styling */
-h2 {
+.manage-leave-container h2 {
     font-size: 2rem;
     color: #333;
     margin-bottom: 20px;
@@ -117,4 +118,22 @@ button:hover {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+}
+
+.leave-view-btn {
+    background-color: #6c757d; /* Bootstrap secondary background */
+    color: #fff;               /* Bootstrap secondary text color */
+    border: none;
+    border-radius: 0.375rem;   /* Bootstrap default border-radius */
+    padding: 0.375rem 0.75rem; /* Matches btn padding */
+    font-weight: 600;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.leave-view-btn:hover {
+    background-color: #5c636a; /* Bootstrap secondary hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }

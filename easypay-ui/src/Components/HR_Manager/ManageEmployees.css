@@ -1,0 +1,209 @@
+.manage-employees-display-employee-container{
+  width: 100%;
+  height: 90vh;
+  padding: 20px;
+  box-sizing: border-box;
+  
+  background-color: #f8f9fa; /* optional: light background */
+}
+
+
+.manage-employees-display-employee-container h1 {
+  font-size: 24px;
+  margin: 20px 0;
+  text-align: center;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.manage-employees-responsive-table {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.manage-employees-responsive-table li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 15px;
+  font-size: 17px;
+  font-weight: 500;
+  border-bottom: 1px solid #ccc;
+}
+
+.manage-employees-table-header {
+  background-color: #ecf0f1;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 17px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.manage-employees-table-row {
+  background-color: #ffffff;
+  color: black;
+  transition: background 0.3s ease;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.manage-employees-table-row:hover {
+  background-color: #f9f9f9;
+}
+
+.manage-employees-col-1 {
+  flex-basis: 5%;
+  text-align: center;
+}
+
+.manage-employees-col-2 {
+  flex-basis: 18%;
+  text-align: center;
+}
+
+.manage-employees-col-3 {
+  flex-basis: 30%;
+  text-align: center;
+}
+
+.manage-employees-col-4 {
+  flex-basis: 18%;
+  text-align: center;
+}
+
+.manage-employees-col-5 {
+  flex-basis: 16%;
+  text-align: center;
+}
+
+.manage-employees-col-6 {
+  flex-basis: 14%;
+  text-align: center;
+}
+
+/* Responsive for mobile */
+@media all and (max-width: 767px) {
+  .manage-employees-table-header {
+    display: none;
+  }
+
+  .manage-employees-responsive-table li {
+    display: block;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .manage-employees-responsive-table .col {
+    display: flex;
+    padding: 6px 0;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .manage-employees-responsive-table .col::before {
+    content: attr(data-label);
+    flex-basis: 50%;
+    text-align: right;
+    padding-right: 10px;
+    color: #7f8c8d;
+    font-weight: bold;
+  }
+
+  .manage-employees-col-1, .manage-employees-col-2, .manage-employees-col-3, .manage-employees-col-4, .manage-employees-col-5, .manage-employees-col-6 {
+    flex-basis: 100%;
+  }
+}
+
+
+/* Center the pagination */
+.manage-employees-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 10px 0;
+  margin-top: 20px;
+}
+
+/* Each page item */
+.manage-employees-page-item {
+  margin: 0 5px;
+}
+
+/* Page link buttons */
+.manage-employees-page-link {
+    all: unset;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  outline: none; /* 👈 removes the black border */
+}
+
+.manage-employees-page-link:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Hover effect */
+.manage-employees-page-link:hover {
+  background-color: #eaeaea;
+}
+
+/* Optional: active page styling */
+.manage-employees-page-link.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+
+/* Remove Bootstrap's focus outline and box-shadow from page buttons */
+.manage-employees-pagination .manage-employees-page-item .manage-employees-page-link:focus,
+.manage-employees-pagination .manage-employees-page-item .manage-employees-page-link:active,
+.manage-employees-pagination .manage-employees-page-item .manage-employees-page-link:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #ccc !important;
+}
+
+/* Remove border from Previous and Next buttons */
+.manage-employees-page-link[aria-label="Previous"],
+.manage-employees-page-link[aria-label="Next"] {
+  border: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Remove additional border from buttons inside Previous and Next anchors */
+.manage-employees-page-link[aria-label="Previous"] button,
+.manage-employees-page-link[aria-label="Next"] button {
+  border: 1px solid #464040 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  padding: 5px !important;
+  margin: 0 !important;
+  font-size: inherit !important;
+  color: inherit !important;
+  cursor: pointer !important;
+}
+
+.manage-employees-custom-btn-danger {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 2px;
+}

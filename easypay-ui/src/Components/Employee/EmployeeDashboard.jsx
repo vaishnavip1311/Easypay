@@ -1,7 +1,7 @@
 import { Link, Outlet } from 'react-router-dom';
-import Navbar from './Navbar';
+import Navbar from '../Navbar';
 import Sidebar from './Sidebar';
-import './dashboard.css';
+import './EmployeeDashboard.css';
 
 function EmployeeDashboard() {
 
@@ -12,10 +12,6 @@ function EmployeeDashboard() {
                 <Navbar />
                 <div className="employee-dashboard-content"> 
                     <Outlet />
-
-                    <div className='card-body'>
-                        <Link className='btn btn-primary' to="/employee/profile"></Link>
-                    </div>
                 </div>
             </div>
         </div>
